@@ -15,10 +15,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Baixar codigo
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4 # Atualizado para v4 (Compatível com Node 24)
 
     - name: Configurar Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5 # Atualizado para v5 (Compatível com Node 24)
       with:
         python-version: '3.10'
 
@@ -34,7 +34,7 @@ jobs:
       run: python main.py
 
     - name: Publicar Pagina
-      uses: JamesIves/github-pages-deploy-action@v4
+      uses: JamesIves/github-pages-deploy-action@v4.7.5 # Atualizado para a versão mais estável
       with:
         folder: public_html
         branch: gh-pages

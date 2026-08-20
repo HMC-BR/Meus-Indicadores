@@ -2,8 +2,8 @@ name: Gerador de Tabela B3
 
 on:
   schedule:
-    - cron: '0 13-21 * * 1-5'
-  workflow_dispatch:
+    - cron: '0 13-21 * * 1-5' # Pregão de segunda a sexta
+  workflow_dispatch: # Botão manual
 
 permissions:
   contents: write
@@ -31,12 +31,8 @@ jobs:
 
     - name: Rodar Script
       env:
-        BRAPI_TOKEN: ${{ secrets.BRAPI_TOKEN }}
         MEUS_TICKERS: ${{ secrets.MEUS_TICKERS }}
-      # ESSE COMANDO CORRIGE A LINHA DA URL NO ARQUIVO PYTHON ANTES DE EXECUTAR
-      run: |
-        sed -i 's|brapi.dev|brapi.dev/api/quote/|g' main.py
-        python main.py
+      run: python main.py
 
     - name: Publicar Pagina
       uses: JamesIves/github-pages-deploy-action@v4.7.5

@@ -13,12 +13,9 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
     steps:
-
     - name: Baixar codigo
       uses: actions/checkout@v4
 
@@ -36,7 +33,9 @@ jobs:
       env:
         BRAPI_TOKEN: ${{ secrets.BRAPI_TOKEN }}
         MEUS_TICKERS: ${{ secrets.MEUS_TICKERS }}
+      # ESSE COMANDO CORRIGE A LINHA DA URL NO ARQUIVO PYTHON ANTES DE EXECUTAR
       run: |
+        sed -i 's|brapi.dev|brapi.dev/api/quote/|g' main.py
         python main.py
 
     - name: Publicar Pagina

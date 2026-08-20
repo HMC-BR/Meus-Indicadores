@@ -33,14 +33,10 @@ jobs:
       env:
         BRAPI_TOKEN: ${{ secrets.BRAPI_TOKEN }}
         MEUS_TICKERS: ${{ secrets.MEUS_TICKERS }}
-      # ESSE COMANDO CORRIGE A LINHA DA URL NO ARQUIVO PYTHON ANTES DE EXECUTAR
-      run: |
-        sed -i 's|brapi.dev|brapi.dev/api/quote/|g' main.py
-        python main.py
+      run: python main.py
 
     - name: Publicar Pagina
       uses: JamesIves/github-pages-deploy-action@v4.7.5
       with:
         folder: public_html
         branch: gh-pages
-        

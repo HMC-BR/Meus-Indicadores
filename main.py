@@ -3,7 +3,6 @@ import requests
 import sys
 
 def gerar_tabela_financeira():
-    # Coleta os segredos removendo espaços ocultos
     token = os.environ.get("BRAPI_TOKEN", "").strip()
     tickers_raw = os.environ.get("MEUS_TICKERS", "").strip() 
     
@@ -11,12 +10,13 @@ def gerar_tabela_financeira():
         print("❌ Erro: BRAPI_TOKEN ou MEUS_TICKERS não configurados nos Secrets.")
         sys.exit(1)
 
-    # Limpeza de espaços nos tickers
     tickers = [t.strip().upper() for t in tickers_raw.split(",") if t.strip()]
     tickers_str = ",".join(tickers)
     
     print(f"🔍 Solicitando dados para: {tickers_str}")
-    url = f"https://brapi.dev{tickers_str}?token={token}&modules=defaultKeyStatistics"
+    
+    # URL CORRIGIDA COM /api/quote/
+    url = "https://brapi.dev" + tickers_str + "?token=" + token + "&modules=defaultKeyStatistics"
     
     try:
         response = requests.get(url, timeout=25)
@@ -49,8 +49,6 @@ def gerar_tabela_financeira():
         info = next((res for res in data["results"] if res.get("symbol") == ticker), None)
         if info:
             nome = info.get("longName", "N/A")
-            
-            # Tratamento correto e limpo do preço comercializado
             preco_raw = info.get("regularMarketPrice", 0)
             preco = str(preco_raw).replace('.', ',')
             
@@ -67,7 +65,6 @@ def gerar_tabela_financeira():
 
     html_content += "</table></body></html>"
 
-    # CRIAÇÃO DA PASTA (Corrige o erro da linha 43 do seu log)
     os.makedirs("public_html", exist_ok=True)
     with open("public_html/index.html", "w", encoding="utf-8") as f:
         f.write(html_content)
@@ -75,3 +72,4 @@ def gerar_tabela_financeira():
 
 if __name__ == "__main__":
     gerar_tabela_financeira()
+    

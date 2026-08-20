@@ -15,8 +15,8 @@ def gerar_tabela_financeira():
     
     print(f"🔍 Solicitando dados para: {tickers_str}")
     
-    # URL DEFINITIVA CORRIGIDA COM /api/quote/
-    url = f"https://brapi.dev{tickers_str}?token={token}&modules=defaultKeyStatistics"
+    # URL CORRIGIDA COM /api/quote/
+    url = f"https://brapi.dev/api/quote/{tickers_str}?token={token}&modules=defaultKeyStatistics"
     
     try:
         response = requests.get(url, timeout=25)
